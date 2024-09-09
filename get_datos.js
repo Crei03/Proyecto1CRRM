@@ -1,25 +1,28 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Cargar las provincias al cargar la página
+    
     cargarProvincias();
 
-    // Obtener los elementos de selección
+    
     var selectProvincia = document.getElementById('provincia');
     var selectDistrito = document.getElementById('distrito');
+    var selectCorregimiento = document.getElementById('corregimiento');
+
     
-    // Evento para detectar cambios en la selección de provincia
     selectProvincia.addEventListener('change', function() {
-        var codigoProvinciaSeleccionada = selectProvincia.value; // Usar el valor del código
+        var codigoProvinciaSeleccionada = selectProvincia.value; 
+        limpiarOpciones(selectDistrito);
+        limpiarOpciones(selectCorregimiento);
         cargarDistritos(codigoProvinciaSeleccionada);
     });
 
-    // Evento para detectar cambios en la selección de distrito
     selectDistrito.addEventListener('change', function() {
-        var codigoDistritoSeleccionado = selectDistrito.value; // Usar el valor del código
+        var codigoDistritoSeleccionado = selectDistrito.value; 
+        limpiarOpciones(selectCorregimiento);
         cargarCorregimientos(codigoDistritoSeleccionado);
     });
 });
 
-// Función para cargar las provincias
+
 function cargarProvincias() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'bd.php', true);
@@ -44,7 +47,6 @@ function cargarProvincias() {
     xhr.send();
 }
 
-// Función para cargar los distritos según la provincia seleccionada
 function cargarDistritos(codigo_provincia) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'bd.php?codigo_provincia=' + encodeURIComponent(codigo_provincia), true);
@@ -52,9 +54,6 @@ function cargarDistritos(codigo_provincia) {
         if (xhr.status === 200) {
             var distritos = JSON.parse(xhr.responseText);
             var selectDistrito = document.getElementById('distrito');
-            
-            // Limpiar las opciones anteriores
-            selectDistrito.innerHTML = '<option value="" disabled selected>Seleccione el distrito</option>';
             
             distritos.forEach(function(distrito) {
                 var option = document.createElement('option');
@@ -72,7 +71,6 @@ function cargarDistritos(codigo_provincia) {
     xhr.send();
 }
 
-// Función para cargar los corregimientos según el distrito seleccionado
 function cargarCorregimientos(codigo_distrito) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'bd.php?codigo_distrito=' + encodeURIComponent(codigo_distrito), true);
@@ -80,9 +78,6 @@ function cargarCorregimientos(codigo_distrito) {
         if (xhr.status === 200) {
             var corregimientos = JSON.parse(xhr.responseText);
             var selectCorregimiento = document.getElementById('corregimiento');
-            
-            // Limpiar las opciones anteriores
-            selectCorregimiento.innerHTML = '<option value="" disabled selected>Seleccione el corregimiento</option>';
             
             corregimientos.forEach(function(corregimiento) {
                 var option = document.createElement('option');
@@ -98,4 +93,8 @@ function cargarCorregimientos(codigo_distrito) {
         console.error('Error en la solicitud AJAX.');
     };
     xhr.send();
+}
+
+function limpiarOpciones(selectElement) {
+    selectElement.innerHTML = '<option value="" disabled selected>Seleccione una opción</option>';
 }

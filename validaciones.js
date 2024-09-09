@@ -24,7 +24,7 @@ $(function() {
         }
     });
 
-    $("#salarioHora").on("input", function() {
+    $(".dinero").on("input", function() {
         var valor = this.value;
 
         valor = valor.replace(/[^0-9.]/g, '');
