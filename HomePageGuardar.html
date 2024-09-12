@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="HomePageGuardar.css">
+    <script src="jquery3-4.min.js"></script>
     <script src="app.js"></script>
+    <script src="bd.php"></script>
+    <script src="validaciones.js"></script>
 
     <title>Planilla</title>
 </head>
@@ -25,22 +28,32 @@
             <div class="cedula">
                 <h3 class="cedula-titulo" style="margin-bottom: 2vh;">Cédula</h3>
                 <div class="cedula-etiquetas" style="display: flex;">
-                    <p id="tomo">Tomo</p>
-                    <p id="folio">Folio</p>
-                    <p id="asiento">Asiento</p>
+                    <label id="tomo">Tomo</label>
+                    <label id="folio">Folio</label>
+                    <label id="asiento">Asiento</label>
                 </div>
                 <div class="input-cedula" style="display: flex;">
-                    <Select id="tomo">
+                    <Select id="tomo" class="select">
                         <option value="" disabled selected>8</option>
                     </Select>
-                    <input type="text" id="folio" placeholder="9999"> 
-                    <input type="text"  id="asiento" placeholder="99999">  
+
+                    <div class="msg-field-cedula">
+                        <input type="text" id="folio" class="solo-numeros" placeholder="9999" maxlength="4"> 
+                        <p class="msgError-numeros" style="color: red; display: none;">Solo se permiten números.</p>
+                    </div>
+                    
+                    
+                    <div class="msg-field-cedula">
+                        <input type="text"  id="asiento" class="solo-numeros" placeholder="99999" maxlength="5">  
+                        <p class="msgError-numeros" style="color: red; display: none;">Solo se permiten números.</p>
+                    </div>
+                   
+                    
                 </div>
             </div>
     
-    
-            
-            <!-- Seccion de introducir datos personales -->
+
+           <!-- Seccion de introducir datos personales -->
             <div class="datos">
                 <div class="nombres">
                     <div class="nombre-label" style="display: flex;">
@@ -49,40 +62,40 @@
                     </div>
                 
                     <div class="nombre-input" style="display: flex;">
-                        <input class="names-field" type="text" placeholder="Juanito" oninput="soloLetras(this, 0)">
+                        <div class="msg-field">
+                            <input class="names-field solo-letras" type="text" placeholder="Juanito" oninput="soloLetras(this, 0)">
+                            <p class="msgError-nombres" style="color: red; display: none;">Solo se permiten letras.</p> <!-- Mensaje de error aquí -->
+                        </div>
                         
-                
-                        <input class="names-field" type="text" placeholder="Alcachofa" oninput="soloLetras(this, 1)">
-                        
+                        <div class="msg-field">
+                            <input class="names-field solo-letras" type="text" placeholder="Alcachofa" id="segundo-nombre">
+                        <p class="msgError-nombres" style="color: red; display: none;">Solo se permiten letras.</p> <!-- Mensaje de error aquí -->
+                        </div>
+
                     </div>
-                    <div class="error-names" style="display: flex;">
-                        <p class="msgError-nombres" style="color: red; display: none;">Solo se permiten letras.</p>
-                        <p class="msgError-nombres" style="color: red; display: none;">Solo se permiten letras.</p>
+                </div>
+            </div>
+                    
+            <div class="apellidos">
+                <div class="nombre-label" style="display: flex;">
+                    <label for="apellido" id="nombre-label">Primer apellido</label>
+                    <label for="apellido" id="nombre-label">Segundo apellido</label>
+                </div>
+
+                <div class="nombre-input" style="display: flex;">
+                    <div class="msg-field">
+                        <input class="names-field solo-letras" type="text" placeholder="Peréz" oninput="soloLetras(this, 2)">
+                        <p class="msgError-nombres" style="color: red; display: none;">Solo se permiten letras.</p> <!-- Mensaje de error aquí -->
+                    
                     </div>
                     
-                </div>
-                
-                <div class="apellidos">
-                    <div class="nombre-label" style="display: flex;">
-                        <label for="apellido" id="nombre-label">Primer apellido</label>
-                        <label for="apellido" id="nombre-label">Segundo apellido</label>
-                    </div>
-                
-                    <div class="nombre-input" style="display: flex;">
-                        <input class="names-field" type="text" placeholder="Peréz" oninput="soloLetras(this, 2)">
-                        
-                
-                        <input class="names-field" type="text" placeholder="del Carmén" oninput="soloLetras(this, 3)">
-                        
-                    </div>
-                    <div class="error-names" style="display: flex;">
-                        <p class="msgError-nombres" style="color: red; display: none;">Solo se permiten letras.</p>
+                    <div class="msg-field">
+                        <input class="names-field solo-letras" type="text" placeholder="del Carmén" oninput="soloLetras(this, 3)">
                         <p class="msgError-nombres" style="color: red; display: none;">Solo se permiten letras.</p>
                     </div>
+                    <!-- Mensaje de error aquí -->
                 </div>
-                
-        </div>
-        
+            </div>
         
 
 
@@ -97,15 +110,15 @@
                 </div>
 
                 <div class="direccion-selects" style="display: flex;">
-                    <select class="direccion-select" id="provincia">
+                    <select class="direccion-select select" id="provincia">
                         <option value="" disabled selected>Panama</option>
                     </select>
                     
-                    <select class="direccion-select" id="distrito">
+                    <select class="direccion-select select" id="distrito">
                         <option value="" disabled selected>Panama</option>
                     </select>
                     
-                    <select class="direccion-select" id="corregimiento">
+                    <select class="direccion-select select" id="corregimiento">
                         <option value="" disabled selected>San Francisco</option>
                     </select>
                 </div>
@@ -122,9 +135,17 @@
                     <label for="horas" class="" id="horas-trabajadas">Salario por hora</label>
                 </div>
 
-                <div class="horas-trabajo-input">
-                    <input class="calculo-salario"  type="number" id="horas-trabajadas-input" placeholder="45">
-                    <input class="calculo-salario" type="number" id="salario-hora-input" placeholder="10.75">
+                <div class="horas-trabajo-input" style="display: flex;">
+                    <div class="msg-field-salario">
+                        <input class="calculo-salario solo-numeros"  type="text" id="horas-trabajadas-input" placeholder="45">
+                        <p class="msgError-numeros" style="color: red; display: none;">Solo se permiten números.</p>
+                    </div>
+                    <div class="msg-field-salario">
+                        <input class="calculo-salario dinero" type="text" id="salario-hora-input" placeholder="10.75">
+                        <p class="msgError-salario" style="color: red; display: none;">Solo números y un punto.</p>
+                    </div>
+                    
+                    
                 </div>
 
                 
@@ -139,73 +160,86 @@
                         <label for="deduccion-extra-label" class="" id="deduccion-extra-label">Deducción 3</label>
                     </div>
 
-                    <div class="horas-trabajo-input">
-                        <input type="number" id="deduccion1" class="deducion-extra-input" placeholder="$25.99">
-                        <input type="number" id="deduccion2" class="deducion-extra-input" placeholder="$25.99">
-                        <input type="number" id="deduccion3" class="deducion-extra-input" placeholder="$25.99">
+                    <div class="horas-trabajo-input" style="display: flex;">
+                        <div class="msg-field-salario">
+                            <input type="text" id="deduccion1" class="deducion-extra-input dinero" placeholder="$25.99">
+                            <p class="msgError-salario" style="color: red; display: none;">Solo números y un punto.</p>
+                        </div>
+                        <div class="msg-field-salario">
+                            <input type="text" id="deduccion2" class="deducion-extra-input dinero" placeholder="$25.99">
+                            <p class="msgError-salario" style="color: red; display: none;">Solo números y un punto.</p>
+                        </div>
+                        <div class="msg-field-salario">
+                            <input type="text" id="deduccion3" class="deducion-extra-input dinero" placeholder="$25.99">
+                            <p class="msgError-salario" style="color: red; display: none;">Solo números y un punto.</p>
+                        </div>
+                        
+                        
+                        
                     </div>
                 </div>
 
-                
+            
 
+                
                 
                 <!-- Calculo de Salario con disminuciones -->
                  <div class="container-salario">
                         <div class="line-item">
                             <span class="label">Salario bruto</span>
                             <span class="dots"></span>
-                            <span class="value">$0</span>
+                            <span class="value" id="sBruto">$0</span>
                         </div>
                     
                         <div class="line-item">
                             <span class="label">ISS (9.75%)</span>
                             <span class="dots"></span>
-                            <span class="value">$0</span>
+                            <span class="value" id="sSocial">$0</span>
                         </div>
                     
                         <div class="line-item">
                             <span class="label">ISE (1.25%)</span>
                             <span class="dots"></span>
-                            <span class="value">$0</span>
+                            <span class="value" id="sEducativo">$0</span>
                         </div>
                     
                         <div class="line-item">
-                            <span class="label">ISR (15%)</span>
+                            <span class="label" id="iRenta-label">ISR (15%)</span>
                             <span class="dots"></span>
-                            <span class="value">$0</span>
+                            <span class="value" id="iRenta">$0</span>
                         </div>
 
                         <div class="line-item">
                             <span class="label">Deducción 1</span>
                             <span class="dots"></span>
-                            <span class="value">$0</span>
+                            <span class="value" id="desc1">$0</span>
                         </div>
 
                         <div class="line-item">
                             <span class="label">Deducción 2</span>
                             <span class="dots"></span>
-                            <span class="value">$0</span>
+                            <span class="value" id="desc2">$0</span>
                         </div>
 
                         <div class="line-item">
                             <span class="label">Deducción 3</span>
                             <span class="dots"></span>
-                            <span class="value">$0</span>
+                            <span class="value" id="desc3">$0</span>
                         </div>
 
                         <div class="line-item">
                             <span class="label">Total descuentos</span>
                             <span class="dots"></span>
-                            <span class="value">$0</span>
+                            <span class="value" id="descTotal">$0</span>
                         </div>
                         <div class="line-item">
                             <span class="label">Salario neto</span>
                             <span class="dots"></span>
-                            <span class="value">$0</span>
+                            <span class="value" id="sNeto">$0</span>
                         </div>
                  </div>
 
-                 <button id="boton-salario">Guardar</button>
+                 <button id="boton-salario" onclick="CalcularSalario()">Guardar</button>
 
                  <!-- <button id="boton-salario" style="background-color: rgb(42, 42, 69); "><a href="HomePageActualizar.html" style="color:#ffffff;">Ir a Actualizar</a></button>
                  -->

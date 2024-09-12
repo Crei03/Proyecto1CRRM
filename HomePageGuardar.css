@@ -84,17 +84,31 @@ input:focus, select:focus{
 
 }
 
-.cedula-etiquetas > p{
+.cedula-etiquetas > label{
     margin-right: 24.5%;
-    margin-bottom: -10vh;
+    margin-bottom: 1vh;
     
     
 }
+
+
+.msgError-numeros{
+    margin-right: 29%;
+    margin-top: 1vh;
+    margin-left: .5vw;
+    font-size: small;
+    font-weight: lighter;
+    color: red;
+}
+.msg-field-cedula{
+    margin-right: 4vw;
+}
+
 .input-cedula *{
     width: 15vw;
     height: 5vh;
-    margin-right: 3.6vw;
-    margin-top: 3.5vh;
+    margin-right: 4vw;
+    
 
     
 }
@@ -118,9 +132,10 @@ input:focus, select:focus{
     font-size: small;
     font-weight: lighter;
     color: red;
-    
 
 }
+
+
 #tomo{
     cursor: pointer;
 }
@@ -208,6 +223,15 @@ h2{
 .deducion-extra-input{
     margin-right: 10vh;
     margin-top: 1vh;
+}
+
+.msgError-salario{
+    margin-right: 29%;
+    margin-top: 1vh;
+    margin-left: .5vw;
+    font-size: small;
+    font-weight: lighter;
+    color: red;
 }
 
 #boton-salario{

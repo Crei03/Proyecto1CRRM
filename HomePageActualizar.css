@@ -74,6 +74,15 @@ input:focus, select:focus{
     
 }
 
+.msgError-numeros{
+    margin-right: 29%;
+    margin-top: 1vh;
+    margin-left: .5vw;
+    font-size: small;
+    font-weight: lighter;
+    color: red;
+}
+
 .cedula{
     font-size: 15px;
     font-family: sans-serif;
@@ -184,6 +193,15 @@ h2{
 
 .horas-trabajo-label{
     margin-top: 5vh;
+}
+
+.msgError-salario{
+    margin-right: 29%;
+    margin-top: 1vh;
+    margin-left: .5vw;
+    font-size: small;
+    font-weight: lighter;
+    color: red;
 }
 
 .calculo-salario{
