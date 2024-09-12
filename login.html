@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <script src="jquery3-4.min.js"></script>
+    <script src="bd.php"></script>
+    <script src="validaciones.js"></script>
+    <title>Planilla</title>
+</head>
+<body>
+    <div class="container" style="display: flex;">
+        <div class="fondo"></div>
+
+        <div class="registrar">
+            <h1>Introduzca la cédula del empleado para así iniciar Sesión</h1>
+
+            <div class="cedula-campo" style="display: flex;">
+                <label for="cedula">Cédula: </label>
+                <input type="text" id="cedula-input" placeholder="8-9999-99999" class="boton-login" maxlength="12">
+                <div class="img-container">
+                    <!-- Imagen con hipervínculo -->
+                    <a href="HomePageActualizar.html" id="login-link">
+                        <img src="Sources/enviar.png" alt="" id="login-icono">
+                    </a>
+                </div>
+            </div>
+
+            <div class="registrarse" style="display: flex;">
+                <p>¿Aún sin registro?</p>
+                <a href="HomePageGuardar.html"><p>Registrate</p></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

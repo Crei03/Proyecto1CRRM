@@ -1,0 +1,304 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    font-family: sans-serif;
+}
+
+
+#back-arrow{
+    width: 5vw;
+    height: 7vh;
+    position: absolute;
+    margin-top: 2vh;
+    margin-left: 6vw;
+}
+
+.container{
+    /* border: solid 2px #000000; */
+    
+    margin-left: 15vw;
+    margin-right: 15vw;
+    margin-bottom: 12vh;
+
+}
+
+
+input, select{
+    padding-left: .7vw;
+    height: 5vh;
+    width: 10vw;
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: lighter;
+    color: #818181;
+    border-radius: 8px;
+    border-style:double;
+    border: solid 1px;
+    border-color: #818181;
+
+}
+input:focus, select:focus{
+    background-color: #ffffff;
+    border: solid 2.5px green;
+    outline: none; 
+    
+}
+
+::placeholder{
+    padding-left: .5%;
+    color: #bdbdbd;
+    
+}
+
+.msgError-nombres{
+    display: none;
+    color: red;
+    
+}
+
+.header-planilla{
+    margin-top: 5vh;
+    margin-left: 5vw;
+}
+.header-planilla >  h1{
+    font-family: sans-serif;
+    font-weight: bold;
+    color: green;
+}
+.header-planilla > p{
+    font-family: sans-serif;
+    font-size: 16px;
+    color: #bdbdbd;
+    margin-bottom: 10vh;
+    
+}
+
+.cedula{
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: lighter;
+    color: #818181;
+    margin-top: 5vh;
+    
+    
+
+}
+
+.cedula-etiquetas > label{
+    margin-right: 24.5%;
+    margin-bottom: 1vh;
+    
+    
+}
+
+
+.msgError-numeros{
+    margin-right: 29%;
+    margin-top: 1vh;
+    margin-left: .5vw;
+    font-size: small;
+    font-weight: lighter;
+    color: red;
+}
+.msg-field-cedula{
+    margin-right: 4vw;
+}
+
+.input-cedula *{
+    width: 15vw;
+    height: 5vh;
+    margin-right: 4vw;
+    
+
+    
+}
+
+.nombre-label * {
+    margin-top: 5vh;
+    margin-right:31%;
+}
+
+.nombre-input * {
+    margin-top: 1vh;
+    margin-right: 3%;
+
+}
+.error{
+    border: red 3px solid;
+}
+.msgError-nombres{
+    margin-right: 28%;
+    margin-top: 1vh;
+    font-size: small;
+    font-weight: lighter;
+    color: red;
+
+}
+
+
+#tomo{
+    cursor: pointer;
+}
+
+.names-field{
+    width: 25vw;
+    border-radius: 5px;
+    height: 5vh;
+}
+
+#nombre-label{
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: lighter;
+    color: #818181;
+}
+hr{
+    width: 60%;
+    height: .5px;
+    
+    margin-right: 15vw;
+    margin-top: 7vh;
+    background-color: rgb(198, 198, 198);
+}
+
+.direccion-select{
+    width: 15vw;
+    height: 5vh;
+    margin-right: 4.5vw;
+    margin-top: 1vh;
+    cursor: pointer;
+  
+}
+
+#direccion-label{
+    margin-top: 5vh;
+    margin-right:23.5%;
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: lighter;
+    color: #818181;
+
+}
+
+h2{
+    font-family: sans-serif;
+    font-weight: lighter;
+    font-style: italic;
+    margin-top: 2vh;
+    color: green;
+}
+
+#horas-trabajadas{
+    
+    margin-right:12.5%;
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: lighter;
+    color: #818181;
+}
+
+.horas-trabajo-label{
+    margin-top: 5vh;
+}
+
+.calculo-salario{
+    margin-right: 10.5vh;
+    margin-top: 1vh;
+}
+
+.otras-deducciones > h3{
+    margin-top: 5vh;
+    color: #818181;
+    font-size: 15px;
+}
+#deduccion-extra-label{
+    margin-top: 2vh;
+    margin-right:15%;
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: lighter;
+    color: #818181;
+}
+
+.deducion-extra-input{
+    margin-right: 10vh;
+    margin-top: 1vh;
+}
+
+.msgError-salario{
+    margin-right: 29%;
+    margin-top: 1vh;
+    margin-left: .5vw;
+    font-size: small;
+    font-weight: lighter;
+    color: red;
+}
+
+#boton-salario{
+    width: 20vw;
+    height: 5vh;
+    background-color: green;
+    color: #ffffff;
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    border: green 1px solid;
+    border-radius: 8px;
+    transition: transform .8s ease;
+
+    margin-left: 25%;
+    margin-right: 45%;
+    margin-top: 10vh;
+
+}
+
+.salario a{
+    text-decoration: none;
+}
+
+#boton-salario:hover{
+    background-color: #ffffff;
+    color: green;
+    transform: scale(1.1);
+
+
+}
+
+.container-salario{
+    margin-top: 5vh;
+}
+.line-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dotted #cccccc; /* Línea discontinua */
+    padding: 5px 0;
+    margin-right: 15vw;
+}
+
+.line-item:last-child {
+    border-bottom: none; /* Quita la línea discontinua del último elemento */
+}
+
+.label {
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+    color: rgb(85, 85, 85);
+}
+
+.dots {
+    flex-grow: 1;
+    border-bottom: 1px dotted rgb(33, 85, 33);
+    margin-right: 10px;
+}
+
+.value {
+    white-space: nowrap;
+    text-align: right;
+    font-weight: bold;
+    color: rgb(85, 85, 85);
+}
+
+
+
