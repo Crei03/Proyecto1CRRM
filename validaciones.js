@@ -2,37 +2,45 @@ $(function() {
 
 var input_actualizar = ""
     // Evento para permitir solo letras
-$(".solo-letras").on("input", function() {
-    var input = $(this);
-    var valor = input.val();
-
+    $(".solo-letras").on("input", function() {
+        var input = $(this);
+        var valor = input.val();
     
-    var soloLetras = /^[a-zA-Z\s]*$/;
-
-    // Verifica si el valor coincide con la expresión regular
-    if (!soloLetras.test(valor)) {
-       
-        const errorMessage = input.next(".msgError-nombres"); 
-        errorMessage.show();
-
-        
-        input.addClass("error");
-
-        // Elimina el último carácter ingresado
-        input.val(valor.slice(0, -1));
-
-        // Después de 5 segundos, ocultar el mensaje de error y quitar el borde rojo
-        setTimeout(() => {
-            errorMessage.hide();
-            input.removeClass("error"); 
-        }, 5000);
-    } else {
+        // Expresión regular que permite letras y un solo espacio
+        var soloLetras = /^[a-zA-Z\s]*$/;
     
-        const errorMessage = input.next(".msgError-nombres");
-        errorMessage.hide(); 
-        input.removeClass("error");
-    }
-});
+        // Contar cuántos espacios hay en el input
+        var countSpaces = (valor.match(/ /g) || []).length;
+    
+        // Si hay más de un espacio, eliminar el último carácter
+        if (countSpaces > 1) {
+            input.val(valor.slice(0, -1));
+            return; // Sale de la función para evitar más validaciones
+        }
+    
+        // Verifica si el valor coincide con la expresión regular (solo letras y espacios permitidos)
+        if (!soloLetras.test(valor)) {
+            const errorMessage = input.next(".msgError-nombres"); 
+            errorMessage.show();
+    
+            input.addClass("error");
+    
+            // Elimina el último carácter ingresado si no es válido
+            input.val(valor.slice(0, -1));
+    
+            // Después de 5 segundos, ocultar el mensaje de error y quitar el borde rojo
+            setTimeout(() => {
+                errorMessage.hide();
+                input.removeClass("error"); 
+            }, 5000);
+        } else {
+            const errorMessage = input.next(".msgError-nombres");
+            errorMessage.hide(); 
+            input.removeClass("error");
+        }
+    });
+    
+    
 
 
     // Evento para permitir solo números
