@@ -7,6 +7,8 @@
     <script src="jquery3-4.min.js"></script>
     <script src="app.js"></script>
     <script src="bd.php"></script>
+    <script type="module" src="get_datos.js"></script>
+    <script type="module" src="send_datos.js"></script>
     <script src="validaciones.js"></script>
 
     <title>Planilla</title>
@@ -33,18 +35,17 @@
                     <label id="asiento">Asiento</label>
                 </div>
                 <div class="input-cedula" style="display: flex;">
-                    <Select id="tomo" class="select">
-                        <option value="" disabled selected>8</option>
+                    <Select id="folio-select" class="select">
                     </Select>
 
                     <div class="msg-field-cedula">
-                        <input type="text" id="folio" class="solo-numeros" placeholder="9999" maxlength="4"> 
+                        <input type="text" id="tomo-input" class="solo-numeros" placeholder="9999" maxlength="4"> 
                         <p class="msgError-numeros" style="color: red; display: none;">Solo se permiten números.</p>
                     </div>
                     
                     
                     <div class="msg-field-cedula">
-                        <input type="text"  id="asiento" class="solo-numeros" placeholder="99999" maxlength="5">  
+                        <input type="text"  id="asiento-input" class="solo-numeros" placeholder="99999" maxlength="5">  
                         <p class="msgError-numeros" style="color: red; display: none;">Solo se permiten números.</p>
                     </div>
                    
@@ -63,7 +64,7 @@
                 
                     <div class="nombre-input" style="display: flex;">
                         <div class="msg-field">
-                            <input class="names-field solo-letras" type="text" placeholder="Juanito" >
+                            <input class="names-field solo-letras" type="text" placeholder="Juanito" id="primer-nombre" >
                             <p class="msgError-nombres" style="color: red; display: none;">Solo se permiten letras.</p> <!-- Mensaje de error aquí -->
                         </div>
                         
@@ -84,13 +85,13 @@
 
                 <div class="nombre-input" style="display: flex;">
                     <div class="msg-field">
-                        <input class="names-field solo-letras" type="text" placeholder="Peréz">
+                        <input class="names-field solo-letras" type="text" placeholder="Peréz" id="primer-apellido">
                         <p class="msgError-nombres" style="color: red; display: none;">Solo se permiten letras.</p> <!-- Mensaje de error aquí -->
                     
                     </div>
                     
                     <div class="msg-field">
-                        <input class="names-field solo-letras" type="text" placeholder="del Carmén">
+                        <input class="names-field solo-letras" type="text" placeholder="del Carmén" id="segundo-apellido">
                         <p class="msgError-nombres" style="color: red; display: none;">Solo se permiten letras.</p>
                     </div>
                     <!-- Mensaje de error aquí -->
@@ -239,7 +240,7 @@
                         </div>
                  </div>
 
-                 <button id="boton-salario" onclick="CalcularSalario()">Guardar</button>
+                 <button id="boton-salario" >Guardar</button>
 
                  <!-- <button id="boton-salario" style="background-color: rgb(42, 42, 69); "><a href="HomePageActualizar.html" style="color:#ffffff;">Ir a Actualizar</a></button>
                  -->

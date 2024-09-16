@@ -1,100 +1,86 @@
-document.addEventListener('DOMContentLoaded', function() {
-    
+$(document).ready(function() {
     cargarProvincias();
 
-    
-    var selectProvincia = document.getElementById('provincia');
-    var selectDistrito = document.getElementById('distrito');
-    var selectCorregimiento = document.getElementById('corregimiento');
+    var $selectProvincia = $('#provincia');
+    var $selectDistrito = $('#distrito');
+    var $selectCorregimiento = $('#corregimiento');
 
-    
-    selectProvincia.addEventListener('change', function() {
-        var codigoProvinciaSeleccionada = selectProvincia.value; 
-        limpiarOpciones(selectDistrito);
-        limpiarOpciones(selectCorregimiento);
+    // Manejar el cambio de la selección de provincias
+    $selectProvincia.on('change', function() {
+        var codigoProvinciaSeleccionada = $(this).val();
+        limpiarOpciones($selectDistrito);
+        limpiarOpciones($selectCorregimiento);
         cargarDistritos(codigoProvinciaSeleccionada);
     });
 
-    selectDistrito.addEventListener('change', function() {
-        var codigoDistritoSeleccionado = selectDistrito.value; 
-        limpiarOpciones(selectCorregimiento);
+    // Manejar el cambio de la selección de distritos
+    $selectDistrito.on('change', function() {
+        var codigoDistritoSeleccionado = $(this).val();
+        limpiarOpciones($selectCorregimiento);
         cargarCorregimientos(codigoDistritoSeleccionado);
     });
 });
 
-
 function cargarProvincias() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'bd.php', true);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var provincias = JSON.parse(xhr.responseText);
-            var selectProvincia = document.getElementById('provincia');
-            
+    $.ajax({
+        type: 'GET',
+        url: 'bd.php',
+        success: function(response) {
+            var provincias = JSON.parse(response);
+            var $selectProvincia = $('#provincia');
+
             provincias.forEach(function(provincia) {
-                var option = document.createElement('option');
-                option.value = provincia.codigo; // Usar el código como valor
-                option.textContent = provincia.nombre; // Mostrar el nombre como texto
-                selectProvincia.appendChild(option);
+                var option = $('<option>').val(provincia.codigo).text(provincia.nombre);
+                $selectProvincia.append(option);
             });
-        } else {
-            console.error('Error al cargar las provincias: ' + xhr.statusText);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error al cargar las provincias: ' + textStatus);
         }
-    };
-    xhr.onerror = function() {
-        console.error('Error en la solicitud AJAX.');
-    };
-    xhr.send();
+    });
 }
 
 function cargarDistritos(codigo_provincia) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'bd.php?codigo_provincia=' + encodeURIComponent(codigo_provincia), true);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var distritos = JSON.parse(xhr.responseText);
-            var selectDistrito = document.getElementById('distrito');
-            
+    $.ajax({
+        type: 'GET',
+        url: 'bd.php',
+        data: { codigo_provincia: codigo_provincia },
+        success: function(response) {
+            var distritos = JSON.parse(response);
+            var $selectDistrito = $('#distrito');
+
             distritos.forEach(function(distrito) {
-                var option = document.createElement('option');
-                option.value = distrito.codigo; // Usar el código como valor
-                option.textContent = distrito.nombre;
-                selectDistrito.appendChild(option);
+                var option = $('<option>').val(distrito.codigo).text(distrito.nombre);
+                $selectDistrito.append(option);
             });
-        } else {
-            console.error('Error al cargar los distritos: ' + xhr.statusText);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error al cargar los distritos: ' + textStatus);
         }
-    };
-    xhr.onerror = function() {
-        console.error('Error en la solicitud AJAX.');
-    };
-    xhr.send();
+    });
 }
 
 function cargarCorregimientos(codigo_distrito) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'bd.php?codigo_distrito=' + encodeURIComponent(codigo_distrito), true);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var corregimientos = JSON.parse(xhr.responseText);
-            var selectCorregimiento = document.getElementById('corregimiento');
-            
+    $.ajax({
+        type: 'GET',
+        url: 'bd.php',
+        data: { codigo_distrito: codigo_distrito },
+        success: function(response) {
+            var corregimientos = JSON.parse(response);
+            var $selectCorregimiento = $('#corregimiento');
+
             corregimientos.forEach(function(corregimiento) {
-                var option = document.createElement('option');
-                option.value = corregimiento;
-                option.textContent = corregimiento;
-                selectCorregimiento.appendChild(option);
+                var option = $('<option>').val(corregimiento.codigo).text(corregimiento.nombre);
+                $selectCorregimiento.append(option);
             });
-        } else {
-            console.error('Error al cargar los corregimientos: ' + xhr.statusText);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error al cargar los corregimientos: ' + textStatus);
         }
-    };
-    xhr.onerror = function() {
-        console.error('Error en la solicitud AJAX.');
-    };
-    xhr.send();
+    });
 }
 
-function limpiarOpciones(selectElement) {
-    selectElement.innerHTML = '<option value="" disabled selected>Seleccione una opción</option>';
+
+function limpiarOpciones($selectElement) {
+    $selectElement.html('<option value="" disabled selected>Seleccione una opción</option>');
 }

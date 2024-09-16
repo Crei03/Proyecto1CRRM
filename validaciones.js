@@ -178,56 +178,82 @@ var input_actualizar = ""
     $(document).ready(function() {
         
         $("#login-link").on("click", function(event) {
-            // Captura el evento de tecla presionada
-            var cedulaInput = $("#cedula-input").val().trim(); // Obtiene el valor del input de cédula
-    
-            if (cedulaInput === "") {
-                event.preventDefault(); // Evita que el enlace redirija
+            event.preventDefault(); // Evita que el enlace redirija inmediatamente
+        
+            var cedula = $("#cedula-input").val().trim(); // Obtiene el valor del input de cédula
+        
+            if (cedula === "") {
                 alert("Debe completar el campo de cédula antes de continuar.");
                 $("#cedula-input").addClass("error");
             } else {
                 $("#cedula-input").removeClass("error");
-                    
-                window.location.href = "HomePageActualizar.html"; // Redirige a la página deseada
-            
+        
+                $.ajax({
+                    url: 'bd.php', // Asegúrate de que esta ruta sea correcta
+                    type: 'GET',
+                    data: { cedula: cedula },
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log("Respuesta recibida:", response); // Agregar mensaje de depuración
+        
+                        if (response.status === 'success') {
+                            // La cédula se encontró en la base de datos, redirige a la página
+                            localStorage.setItem("cedula", cedula);
+                            window.location.href = "HomePageActualizar.html";
+                        } else {
+                            // La cédula no se encontró
+                            alert("La cédula no se encontró en la base de datos.");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error en la solicitud:', error);
+                    }
+                });
             }
         });
+        
 
-        $()
-
-        $("#cedula-input").on("input keypress", function(event){
+        $("#cedula-input").on("input keypress", function(event) {
             var input = $(this).val();
-            var soloNumerosGuion = input.replace(/[^0-9-]/g, '');
-
-            var characterToLimit = '-'; 
-            var count = (input.match(/-/g) || []).length;
-
-    
-            if(count > 2){
-                soloNumerosGuion = soloNumerosGuion.slice(0, soloNumerosGuion.lastIndexOf('-'));
-
-            }
-            if(event.type === "keypress" && event.which === 13){
-                if (soloNumerosGuion === "") {
+            var cedula = input.replace(/[^0-9]/g, ''); // Solo números permitidos
+        
+            $(this).val(cedula);
+        
+            // Guardar la cédula para colocarla en el campo cédula de HomePageActualizar.html
+            localStorage.setItem("cedula", cedula);
+        
+            if (event.type === "keypress" && event.which === 13) {
+                if (cedula === "") {
                     event.preventDefault(); // Evita que el enlace redirija
                     alert("Debe completar el campo de cédula antes de continuar.");
                     $("#cedula-input").addClass("error");
-                }else{
-                    $("#cedula-input").removeClass("error") 
-                    window.location.href = "HomePageActualizar.html"; 
+                } else {
+                    $("#cedula-input").removeClass("error");
+        
+                    console.log("Cédula enviada:", cedula); // Agregar mensaje de depuración
+        
+                    // Realiza la solicitud AJAX para verificar la cédula
+                    $.ajax({
+                        url: 'bd.php', // Reemplaza con la ruta correcta de tu archivo PHP
+                        type: 'GET',
+                        data: { cedula: cedula },
+                        dataType: 'json',
+                        success: function(response) {        
+                            if (response.status === 'success') {
+                                // La cédula se encontró en la base de datos, redirige a la página
+                                localStorage.setItem("cedula", cedula);
+                                window.location.href = "HomePageActualizar.html";
+                            } else {
+                                // La cédula no se encontró
+                                alert("La cédula no se encontró en la base de datos.");
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log('Error en la solicitud:', error);
+                        }
+                    });
                 }
             }
-    
-                // Redirige a la página deseada
-                
-            
-
-            $(this).val(soloNumerosGuion);
-
-            //guardar cedula para colocarla en el campo cedula de HomePageActualizar.html
-            localStorage.setItem("cedula", soloNumerosGuion); 
-          
-            
         });
 
         // Recuperar y mostrar la cédula en el input cuando se carga la página
