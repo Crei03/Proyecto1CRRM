@@ -71,7 +71,7 @@ function borrarDatos() {
                 console.log("Datos eliminados correctamente:", response);
                 alert("Datos eliminados correctamente.");
                 // Opcional: Redirigir o limpiar los campos del formulario después de eliminar
-                window.location.href = "HomePage.html"; // Redirige a la página principal después de eliminar
+                window.location.href = "login.html"; // Redirige a la página principal después de eliminar
             },
             error: function(xhr, status, error) {
                 console.error("Error al eliminar los datos:", error);
@@ -82,34 +82,59 @@ function borrarDatos() {
 }
 
 function calcularImpuestos() {
-    // Obtener los valores de horas trabajadas y salario por hora
-    var horasTrabajadas = parseFloat($('#horas-trabajadas-input').val());
-    var salarioHora = parseFloat($('#salario-hora-input').val());
+    var horasTrabajadas = parseFloat($("#horas-trabajadas-input").val()) || 0;
+        var salarioXHora = parseFloat($("#salario-hora-input").val()) || 0;  // Cambiado a #salario-hora-input
 
-    // Calcular salario bruto
-    var salarioBruto = horasTrabajadas * salarioHora;
-    $('#sBruto').text(salarioBruto.toFixed(2)); // Mostrar con dos decimales
+        // Calcular el salario bruto
+        var sBruto = horasTrabajadas * salarioXHora;
+        $("#sBruto").text("$" + sBruto.toFixed(2)); // Mostrar salario bruto
+
+        calcularSalarioNeto(sBruto);
+    }
+
+    function calcularSalarioNeto(sBruto) {
+        // Asegurarse de que sBruto sea un número, o asignarle 0 si no lo es
+        sBruto = parseFloat(sBruto) || 0;
     
-    // Calcular impuestos y descuentos
-    var seguroSocial = salarioBruto * 0.0975; // Ejemplo: 9.75% de seguro social
-    var seguroEducativo = salarioBruto * 0.0125; // Ejemplo: 1.25% de seguro educativo
-    var impuestoRenta = salarioBruto * 0.10; // Ejemplo: 10% de impuesto sobre la renta
+        // Calcular ISS (9.75%)
+        var seguroSocial = sBruto * 0.0975;
+        $("#sSocial").text("$" + seguroSocial.toFixed(2)); // Mostrar seguro social
     
-    // Mostrar impuestos en los campos correspondientes
-    $('#sSocial').text(seguroSocial.toFixed(2));
-    $('#sEducativo').text(seguroEducativo.toFixed(2));
-    $('#iRenta').text(impuestoRenta.toFixed(2));
+        // Calcular ISE (1.25%)
+        var seguroEducativo = sBruto * 0.0125;
+        $("#sEducativo").text("$" + seguroEducativo.toFixed(2)); // Mostrar seguro educativo
     
-    // Calcular salario neto
-    var deduccion1 = parseFloat($('#deduccion1').val()) || 0;
-    var deduccion2 = parseFloat($('#deduccion2').val()) || 0;
-    var deduccion3 = parseFloat($('#deduccion3').val()) || 0;
-    var totalDesc = deduccion1 + deduccion2 + deduccion3;
-    $('#descTotal').text(totalDesc.toFixed(2));
-    var salarioNeto = salarioBruto - seguroSocial - seguroEducativo - impuestoRenta - deduccion1 - deduccion2 - deduccion3;
+        // Calcular ISR (15% o 25%)
+        var sAnual = sBruto * 12;
+        var impuestoRenta = 0;
     
-    $('#sNeto').text(salarioNeto.toFixed(2)); // Mostrar salario neto
-}
+        if (sAnual > 50000) {
+            $("#iRenta-label").text("ISR (25%)");
+            impuestoRenta = ((50000 - 11000) * 0.15) + ((sAnual - 50000) * 0.25);
+        } else if (sAnual > 11000 && sAnual <= 50000) {
+            $("#iRenta-label").text("ISR (15%)");
+            impuestoRenta = (sAnual - 11000) * 0.15;
+        }
+        var mensual = impuestoRenta / 12;
+        $("#iRenta").text("$" + mensual.toFixed(2)); // Mostrar ISR
+    
+        // Calcular deducciones adicionales
+        var desc1 = parseFloat($("#deduccion1").val()) || 0;
+        var desc2 = parseFloat($("#deduccion2").val()) || 0;
+        var desc3 = parseFloat($("#deduccion3").val()) || 0;
+    
+        $("#desc1").text("$" + desc1.toFixed(2));
+        $("#desc2").text("$" + desc2.toFixed(2));
+        $("#desc3").text("$" + desc3.toFixed(2));
+    
+        var totalDescuentos = desc1 + desc2 + desc3;
+        $("#descTotal").text("$" + totalDescuentos.toFixed(2)); // Mostrar descuentos totales
+    
+        // Calcular salario neto
+        var sNeto = sBruto - (seguroSocial + seguroEducativo + mensual + totalDescuentos);
+        $("#sNeto").text("$" + sNeto.toFixed(2)); // Mostrar salario neto
+    }
+    
 
 function limpiarOpciones($select) {
     $select.find('option').not(':first').remove(); // Mantener el primer option (por ejemplo, "Seleccionar...")

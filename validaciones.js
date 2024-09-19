@@ -119,9 +119,9 @@ var input_actualizar = ""
             var input = $(this);
     
             // Saltar el campo del segundo nombre o deducción 1 si no es obligatorio
-            if (input.attr("id") === "segundo-nombre" || input.hasClass("deducion-extra-input")) {
-                return true; // Salta este campo y continúa con los demás
-            }
+            // if (input.attr("id") === "segundo-nombre" || input.hasClass("deducion-extra-input")) {
+            //     return true; // Salta este campo y continúa con los demás
+            // }
             
     
             // Si es un input normal, verifica si está vacío
@@ -181,6 +181,7 @@ var input_actualizar = ""
             event.preventDefault(); // Evita que el enlace redirija inmediatamente
         
             var cedula = $("#cedula-input").val().trim(); // Obtiene el valor del input de cédula
+            cedula = cedula.replace(/-/g, '');
         
             if (cedula === "") {
                 alert("Debe completar el campo de cédula antes de continuar.");
@@ -213,26 +214,33 @@ var input_actualizar = ""
         });
         
 
-        $("#cedula-input").on("input keypress", function(event) {
+        $("#cedula-input").on("input", function(event) {
             var input = $(this).val();
-            var cedula = input.replace(/[^0-9]/g, ''); // Solo números permitidos
+            
+            // Solo permite números y guiones
+            var soloNumerosGuion = input.replace(/[^0-9-]/g, '');
         
-            $(this).val(cedula);
+            // Limitar a solo 2 guiones
+            var count = (soloNumerosGuion.match(/-/g) || []).length;
+            if (count > 2) {
+                // Si hay más de 2 guiones, elimina el último
+                soloNumerosGuion = soloNumerosGuion.slice(0, soloNumerosGuion.lastIndexOf('-'));
+            }
         
-            // Guardar la cédula para colocarla en el campo cédula de HomePageActualizar.html
-            localStorage.setItem("cedula", cedula);
+            // Actualizar el valor del campo de entrada
+            $(this).val(soloNumerosGuion);
         
-            if (event.type === "keypress" && event.which === 13) {
+            // Validación adicional al presionar Enter (si se requiere)
+            if (event.which === 13) {
+                var cedula = $(this).val(); // Obtener la cédula del input actualizado
                 if (cedula === "") {
-                    event.preventDefault(); // Evita que el enlace redirija
+                    event.preventDefault(); // Evitar la redirección
                     alert("Debe completar el campo de cédula antes de continuar.");
                     $("#cedula-input").addClass("error");
                 } else {
                     $("#cedula-input").removeClass("error");
         
-                    console.log("Cédula enviada:", cedula); // Agregar mensaje de depuración
-        
-                    // Realiza la solicitud AJAX para verificar la cédula
+                    // Solicitud AJAX (puedes incluir tu lógica aquí)
                     $.ajax({
                         url: 'bd.php', // Reemplaza con la ruta correcta de tu archivo PHP
                         type: 'GET',
@@ -240,11 +248,10 @@ var input_actualizar = ""
                         dataType: 'json',
                         success: function(response) {        
                             if (response.status === 'success') {
-                                // La cédula se encontró en la base de datos, redirige a la página
+                                // Si se encontró la cédula, redirigir
                                 localStorage.setItem("cedula", cedula);
                                 window.location.href = "HomePageActualizar.html";
                             } else {
-                                // La cédula no se encontró
                                 alert("La cédula no se encontró en la base de datos.");
                             }
                         },
@@ -252,9 +259,15 @@ var input_actualizar = ""
                             console.log('Error en la solicitud:', error);
                         }
                     });
+        
+                    console.log("Cédula enviada:", cedula); // Debugging
                 }
             }
         });
+        
+        
+        
+        
 
         // Recuperar y mostrar la cédula en el input cuando se carga la página
         var cedula = localStorage.getItem("cedula");
